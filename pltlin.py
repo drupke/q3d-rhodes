@@ -212,3 +212,4 @@ def ifsf_pltlin (instr, pltpar, outfile):
   tmpfile = outfile
   img = cgsnapshot(filename=tmpfile,/jpeg,/nodialog,quality=100)
  return
+#test
