@@ -149,9 +149,10 @@ def ifsf_pltlin (instr, pltpar, outfile):
       masklam = [[wave[0],wave[instr['ct_indx'][lct[0]-1]]+[masklam]]]
 
 #Set masked region if it occurs at end of lambda array
- if instr['ct_indx'][len(instr['ct_indx'])-1 != len(instr('wave'))-1: 
+ if instr['ct_indx'][len(instr['ct_indx'])-1 != len(instr['wave'])-1: 
       nmasked+1
-      masklam= [[masklam]+[wave[instr['ct_indx'][hct[nct-1]]], wave[len(instr['wave'])]]
+      masklam= [[masklam] \
+                +[wave[instr['ct_indx'][hct[nct-1]]], wave[len(instr['wave'])]]
  nlin= len(pltpar['label'])
  linlab= pltpar['label']
  linwav= pltpar['wave']
@@ -165,8 +166,8 @@ def ifsf_pltlin (instr, pltpar, outfile):
  for i in (0,nlin-1):
     linwavtmp= linwav[i]
     xran = (linwavtmp[0] + off[:i]) * (1d + zbase)
-    ind = where(wave gt xran[0] AND wave lt xran[1],ct)
-    cgplot,[0],/nodata,xsty=4,ysty=4,pos=pos[:i],noerase=i ne 0,backg='Black'
+    ind = where(wave > xran[0] AND wave < (xran[1],ct))
+    cgplot[0],nodata=false,xsty=4,ysty=4,pos=pos[:i],noerase=i != 0,backg='Black'
     xwin = [pos[0,i],pos[2,i]]
     ywin = [pos[1,i],pos[3,i]]
     dxwin = xwin[1]-xwin[0]
@@ -176,17 +177,17 @@ def ifsf_pltlin (instr, pltpar, outfile):
         ydat = spectot
         ymod = modtot
         yran = [min([ydat[ind],ymod[ind]]),max([ydat[ind],ymod[ind]])]
-        icol = double(i)/double(pltpar.nx)
+        icol = double(i)/double(pltpar['nx'])
         if icol == fix('icol'):
             ytit='Fit'
         else: ytit= ''
         cgplot ('wave', 'ydat', xran=xran, yran=yran, pos=pos_fit,
-           xtickn= replicate('', 60), ytit=ytit, /noerase
-           axiscol='White', col='White', /norm, /xsty, /ysty, thick=1)
+           xtickn= replicate('', 60), ytit=ytit, noerase=true
+           axiscol='White', col='White', norm=true, xsty=true, ysty=true, thick=1)
          cgoplot ('wave','ymod',color='Red',thick=4)
          for j in (1,ncomp):
              flux= ifsf_cmplin('instr', 'linlab[i]','j'/velsig)
-             cgoplot('wave','yran'[0]+'flux', 'color'=colors[j-1], 'linesty'=2, 'thick'=2)
+             cgoplot('wave','yran'[0]+'flux', 'color'=colors[j-1], 'linesty'=2,'thick'=2)
     cgtext,xran[0]+(xran[1]-xran[0])*0.05d,
       yran[0]+(yran[1]-yran[0])*0.85d,
       linlab[i],charsize=1.5,charthick=2,/dat
@@ -198,8 +199,8 @@ def ifsf_pltlin (instr, pltpar, outfile):
     ymod = modstars
     yran = [min([ydat[ind],ymod[ind]]),max([ydat[ind],ymod[ind]])]
     if icol eq fix(icol) then ytit = 'Residual' else ytit = ''
-        cgplot(wave,ydat,xran=xran,yran=yran,/noerase,ytit=ytit,
-        axiscol='White',col='White',/norm,pos=pos_res,/xsty,/ysty,thick=1)
+        cgplot(wave,ydat,xran=xran,yran=yran,noerase=true,ytit=ytit,
+        axiscol='White',col='White',norm=true,pos=pos_res,xsty=true,ysty=true,thick=1)
         cgoplot(wave,ymod,color='Red',thick=4)
         
   if hasattr(pltpar,'micron'):
@@ -208,7 +209,6 @@ def ifsf_pltlin (instr, pltpar, outfile):
      xtit = 'Observed Wavelength (m)'
   else: 
     xtit = 'Observed Wavelength (!3' + STRING(197B) + '!X)'
-  cgtext,0.5,0.02,xtit,/norm,align=0.5,charsize=2,charthick=2
+  cgtext,0.5,0.02,xtit,norm=true,align=0.5,charsize=2,charthick=2
   tmpfile = outfile
-  img = cgsnapshot(filename=tmpfile,/jpeg,/nodialog,quality=100)
- return
+  img = cgsnapshot(filename=tmpfile, jpeg=true, nodialog=true,quality=100)
