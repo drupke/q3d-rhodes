@@ -78,7 +78,6 @@ int(ny) # of plot rows
 #    http://www.gnu.org/licenses/.
 #
 #-
-
 def ifsf_pltlin (instr, pltpar, outfile):
 
 #in IDL this next section of code directs the output to z-buffer pseudo device
