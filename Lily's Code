@@ -149,7 +149,7 @@ def ifsf_pltlin (instr, pltpar, outfile):
       masklam = [[wave[0],wave[instr['ct_indx'][lct[0]-1]]+[masklam]]]
 
 #Set masked region if it occurs at end of lambda array
- if instr['ct_indx'][len(instr['ct_indx'])-1 != len(instr['wave'])-1: 
+ if instr['ct_indx'][len(instr['ct_indx'])-1] != len(instr['wave'])-1: 
       nmasked+1
       masklam= [[masklam], [wave[instr['ct_indx'][hct[nct-1]]], wave[len(instr['wave'])]]]
  nlin= len(pltpar['label'])
