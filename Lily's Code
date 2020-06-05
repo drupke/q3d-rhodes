@@ -165,7 +165,7 @@ def ifsf_pltlin (instr, pltpar, outfile):
  for i in (0,nlin-1):
     linwavtmp= linwav[i]
     xran = (linwavtmp[0] + off[:i]) * (1d + zbase)
-    ind = where(wave > xran[0] AND wave < (xran[1],ct))
+    ind = where(wave > xran[0] and wave < (xran[1],ct))
     cgplot[0],nodata=false,xsty=4,ysty=4,pos=pos[:i],noerase=i != 0,backg='Black'
     xwin = [pos[0,i],pos[2,i]]
     ywin = [pos[1,i],pos[3,i]]
